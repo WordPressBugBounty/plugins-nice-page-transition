@@ -1,14 +1,12 @@
 <?php
 
-
-
 /*
 
 Plugin Name: Nice page transition
 
 Plugin URI: 
 
-Version: 1.04
+Version: 1.05
 
 Description: Create nice page transition!
 
@@ -24,45 +22,81 @@ Domain Path:
 
 */
 
-
-
-
-
-
-
 register_activation_hook( __FILE__, 'nice_page_transition_install' );
 
 register_uninstall_hook(__FILE__, 'nice_page_transition_desinstall');
 
+function nice_page_transition_install($network_wide) {
 
+	global $wpdb;
 
-function nice_page_transition_install() {
+	if (is_multisite() && $network_wide) {
 
+		// get ids of all sites
 
+		$blogids = $wpdb->get_col("SELECT blog_id FROM $wpdb->blogs");
+
+		foreach ($blogids as $blog_id) {
+
+			switch_to_blog($blog_id);
+
+			// create options for each site
+			nice_page_transition_create_option();
+
+			restore_current_blog();
+
+		}
+
+	}
+	else
+		nice_page_transition_create_option();
+
+}
+
+function nice_page_transition_create_option() {
 
 	//ajoute les options de config
 
 	add_option( 'nice_page_transition_type', 'brightness' );
 
-
-
 }
-
-
 
 function nice_page_transition_desinstall() {
 
+	if (is_multisite())	{
 
+		global $wpdb;
+
+		// get ids of all sites
+
+		$blogids = $wpdb->get_col("SELECT blog_id FROM $wpdb->blogs");
+
+		foreach ($blogids as $blog_id) {
+
+			switch_to_blog($blog_id);
+
+			// create tables for each site
+
+			nice_page_transition_delete_option();
+
+			restore_current_blog();
+
+		}
+
+	}
+	else
+
+		nice_page_transition_delete_option();
+
+}
+
+function nice_page_transition_delete_option() {
 
 	//suppression des options
 
 	delete_option( 'nice_page_transition_type' );
 
-	
-
 }
-
-
 
 add_action( 'admin_menu', 'register_nice_page_transition_menu' );
 

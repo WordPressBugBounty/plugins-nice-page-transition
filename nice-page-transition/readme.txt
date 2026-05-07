@@ -12,7 +12,7 @@ Tested up to: 6.9
 
 Requires PHP: 5.6
 
-Stable tag: 1.04
+Stable tag: 1.05
 
 License: GPLv2 or later
 
@@ -28,7 +28,9 @@ Nice page transition for your website :)
 
 
 
-Nice page transition allow you to choose in 6 beautiful effects transition. [Demo video](https://www.youtube.com/watch?v=ITEUwiULVS0)
+Nice page transition allow you to choose in 6 beautiful effects transition (compatible with multisite).
+
+[Demo video](https://www.youtube.com/watch?v=ITEUwiULVS0)
 
 And see my others Wordpress Pro plugin on [my shop](https://www.info-d-74.com/en/shop/)
 
